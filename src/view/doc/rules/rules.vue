@@ -33,7 +33,6 @@
           }
           console.log(this.friendsLen)
           console.log(this.term)
-
         })
       }
     }
