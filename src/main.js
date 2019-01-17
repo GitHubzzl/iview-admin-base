@@ -10,7 +10,8 @@ import  VueRouter from 'vue-router'
 import  VueResource from 'vue-resource'
 import './index.less'
 import '@/assets/icons/iconfont.css'
-
+import plugin from './plugins'
+Vue.use(plugin)
 Vue.use(VueRouter)
 Vue.use(VueResource)
 // Vue.use(iView, {

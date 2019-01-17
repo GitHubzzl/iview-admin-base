@@ -1,33 +1,39 @@
 <template>
   <div>
-    <p>rules</p>
+    <p></p>
   </div>
 </template>
 <script>
+  import {mapState,mapGetters,mapActions} from 'vuex'
   export default {
     name:'rules',
+    computed:{
+      ...mapState({
+        term: state => state.user.term
+      }),
+      ...mapGetters(['friendsLen'])
+    },
     data () {
       return {
-        rules: {
-          foo: {
-            validate: value => value > 1,
-            message: 'error'
-          }
-
-        }
+        'ser':123
       }
     },
-    created () {
-      const rules = this.rules
-      if (rules) {
-        Object.keys(rules).forEach(key => {
-          const { validate, message } = rules[key]
-          this.$watch(key,newValue => {
-            const valid = validate(newValue)
-            if(!valid){
-              console.log(message)
-            }
-          })
+    mounted(){
+      console.log(this.term)
+      this.getData()
+    },
+    methods:{
+      getData(){
+        this.$axios.get('/user/getTerm').then(data=>{
+          let res = data.data
+          if(res.type === '1'){
+            this.$store.commit('updateTerm',"2019上01")
+          }else if(res.type === '2'){
+            this.$store.commit('updateTerm',"2019下02")
+          }
+          console.log(this.friendsLen)
+          console.log(this.term)
+
         })
       }
     }

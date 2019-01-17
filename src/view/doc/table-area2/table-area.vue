@@ -15,10 +15,6 @@
         }
       }
     },
-    data() {
-      return{
-      }
-    },
     computed: {
       tableColumns () {
         let columns = []

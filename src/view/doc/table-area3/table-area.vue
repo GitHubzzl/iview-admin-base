@@ -16,10 +16,6 @@
         }
       }
     },
-    data() {
-      return{
-      }
-    },
     computed: {
       tableData () {
         return MOCK.data

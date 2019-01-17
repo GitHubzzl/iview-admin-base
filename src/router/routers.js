@@ -86,6 +86,39 @@ export default [
           icon: 'ios-book'
         },
         component: () => import('@/view/doc/table-area3/table-area.vue')
+      },
+      {
+        path: '/tableArea4',
+        name: 'tableArea4',
+        meta: {
+          hideInMenu: false,
+          title: '动态表单v1.0.3',
+          notCache: true,
+          icon: 'ios-book'
+        },
+        component: () => import('@/view/doc/table-area4/table-area.vue')
+      },
+      {
+        path: '/tableArea5',
+        name: 'tableArea5',
+        meta: {
+          hideInMenu: false,
+          title: '动态表单v1.0.4',
+          notCache: true,
+          icon: 'ios-book'
+        },
+        component: () => import('@/view/doc/table-area5/table-area.vue')
+      },
+      {
+        path: '/tableArea6',
+        name: 'tableArea6',
+        meta: {
+          hideInMenu: false,
+          title: '动态表单v1.0.5',
+          notCache: true,
+          icon: 'ios-book'
+        },
+        component: () => import('@/view/doc/table-area6/table-area.vue')
       }
     ]
   }

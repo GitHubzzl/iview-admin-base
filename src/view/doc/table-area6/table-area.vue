@@ -1,21 +1,21 @@
 <template>
   <div class="tableArea">
-    <h3>说明：相比于tableAreaV1.0.5，不render成row表单</h3>
+    <h3>说明：相比于tableAreaV1.0.5,设计成了form表单，但render 函数中没有与 v-model 的直接对应，所以不选用form表单</h3>
     <Table border :columns="tableColumns" :data="tableData"></Table>
-    <p>row0 ： {</p>
-    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{actionModel.row0}}</p>
+    <p>form0 ： {</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{actionModel.form0}}</p>
     <p>}</p>
-    <p>row1 ： {</p>
-    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{actionModel.row1}}</p>
+    <p>form1 ： {</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{actionModel.form1}}</p>
     <p>}</p>
-    <p>row2 ： {</p>
-    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{actionModel.row2}}</p>
+    <p>form2 ： {</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{actionModel.form2}}</p>
     <p>}</p>
-    <p>row3 ： {</p>
-    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{actionModel.row3}}</p>
+    <p>form3 ： {</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{actionModel.form3}}</p>
     <p>}</p>
-    <p>row4 ： {</p>
-    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{actionModel.row4}}</p>
+    <p>form4 ： {</p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;{{actionModel.form4}}</p>
     <p>}</p>
   </div>
 </template>
@@ -39,13 +39,13 @@
     data () {
       return {
         tableColumns:[],
-        rowList:{
-          row1:{
+        formList:{
+          form1:{
             field1:'',
             field2:''
           }
         },
-        rowRules:{
+        formRules:{
           rules1:{
             field1:''
           }
@@ -64,16 +64,16 @@
        */
       computActionModel(){
         let len = MOCK.data.length
-        let row = {};
+        let form = {};
         for(let i=0; i<len; i++){
-          let rowKey = 'row' + i
-          row[rowKey] = {}
+          let formKey = 'form' + i
+          form[formKey] = {}
           for(let j=0; j < MOCK.operation.length; j++){
             let fieldKey = MOCK.operation[j].type + j
-            row[rowKey][fieldKey] = ''
+            form[formKey][fieldKey] = ''
           }
         }
-        this.actionModel = row
+        this.actionModel = form
       },
       /**
        * 计算table的每列数据
@@ -92,9 +92,14 @@
               width: actionWidth
             }
             columns.push(Object.assign({}, obj, {render: (h, row)=>{
-                //需要渲染的操作项 {Array}
-                let renderArr = this.renderActionsFun(h, row)
-                return h('div', [renderArr])
+                //渲染每个操作项，返回数组
+                //let renderArr = this.renderActionsFun(h, row)
+                //return h('div', [renderArr])
+                let FormItemArr = this.renderActionsFun(h, row)
+                let form  = h('Form',{
+                  style: {},
+                },[FormItemArr])
+                return form
               }}))
           }
           else {
@@ -138,10 +143,8 @@
             // render checkbox
             renderItem = this.renderCheckbox(h,row,item)
           }
-          renderArr.push(h('div',{
-            style: {
-              'display': 'inline-block'
-            },
+          renderArr.push(h('FormItem',{
+            style: {'overflow': 'inherit','display': 'inline-block','margin-right': '5px','margin-top': '25px'},
           },[renderItem]))
         })
         return renderArr
@@ -157,14 +160,11 @@
         let _this = this
        // let fieldKey = _this.fieldKey(row,item)
         return h('Select', {
-          style: {
-            'display': 'inline-block',
-            'width': '100px',
-            'margin-right': '5px'
-          },
+
+          style: {'display': 'inline-block','width': '100px', 'margin-right': '5px'},
           on: {
             'on-change' (value) {
-              _this.setActionModel(row,item,value)
+              //_this.setActionModel(row,item,value)
               //item.value = event
               //_this.actionHandle(item)
             }
@@ -196,7 +196,7 @@
           on: {
             'on-blur' (event) {
               let value = event.target.value
-              _this.setActionModel(row,item,value)
+              //_this.setActionModel(row,item,value)
               //_this.actionHandle(item)
             }
           }
@@ -281,9 +281,9 @@
        * @returns
        */
       fieldKey (row,item){
-        let rowKey ='row' + row.index
+        let formKey ='form' + row.index
         let fieldKey = item.type + item.index
-        return this.actionModel[rowKey][fieldKey]
+        return this.actionModel[formKey][fieldKey]
       },
       /**
        * render button
@@ -294,11 +294,11 @@
        */
       setActionModel (row,item,value) {
         //需要修改的key
-        let rowKey = 'row' + row.index
+        let formKey = 'form' + row.index
         let fieldKey = item.type + item.index
         //重新赋值该字段
-        this.actionModel[rowKey][fieldKey]= value
-        console.log("=================:" + this.actionModel)
+        this.actionModel[formKey][fieldKey]= value
+        console.log("=================:"+this.actionModel)
       },
       actionHandle (row,item) {
         console.log(item)
